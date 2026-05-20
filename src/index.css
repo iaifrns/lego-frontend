@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+.default-content{
+  display: flex;
+  width: 100%;
+  min-height: 150vh;
+  justify-content: center;
+  align-items: center;
+}
+
+@theme {
+  --color-lightb: #e9edf4;
+  --color-subcolor: #3c4858;
+  --color-primary: rgb(105,98,252);
+  --font-plex-sans: "IBM Plex Sans", sans-serif;
+  --font-plex-sans--font-optical-sizing: auto;
+  --font-plex-sans--font-weight: <weight>;
+  --font-plex-sans--font-style: normal;
+  --font-plex-sans--font-variation-settings: "wdth" 100;
+}
+
+@layer components {
+  .default-layout{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    overflow-y: hidden;
+    position: relative;
+  }
+}
