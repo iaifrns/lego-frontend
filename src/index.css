@@ -1,18 +1,26 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 
-.default-content{
+* {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.default-content {
   display: flex;
   width: 100%;
-  min-height: 150vh;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 32px;
 }
 
 @theme {
   --color-lightb: #e9edf4;
   --color-subcolor: #3c4858;
-  --color-primary: rgb(105,98,252);
+  --color-primary: rgb(105, 98, 252);
+  --color-bg-primary: rgb(240, 240, 245);
   --font-plex-sans: "IBM Plex Sans", sans-serif;
   --font-plex-sans--font-optical-sizing: auto;
   --font-plex-sans--font-weight: <weight>;
@@ -21,7 +29,7 @@
 }
 
 @layer components {
-  .default-layout{
+  .default-layout {
     height: 100vh;
     width: 100%;
     display: flex;

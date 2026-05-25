@@ -56,13 +56,14 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         setHoverOnSidebar,
         setChangeSidebar
       )}
-      <div className="w-full h-fit max-h-screen flex-2/3 overflow-y-scroll relative border transition-all ease-in">
+      <div className="w-full h-fit max-h-screen flex-2/3 overflow-y-scroll relative transition-all ease-in">
         <TopBar
           setChangeSidebar={setChangeSidebar}
           changeSidebar={changeSidebar}
-          isMobile={isMobile}
         />
+        <div className="bg-primary/10">
         {children}
+        </div>
       </div>
     </div>
   );

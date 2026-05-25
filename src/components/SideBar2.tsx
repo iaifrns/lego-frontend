@@ -1,3 +1,5 @@
+import HomeIcon from "../assets/icons/home";
+import { primary } from "../constants/colors";
 import { images } from "../constants/images";
 
 const SideBar2 = ({
@@ -13,7 +15,9 @@ const SideBar2 = ({
       <div className="h-17.5 py-4 px-5 flex justify-center items-center border border-lightb">
         <img src={images.ICONLOGO} alt="icon logo of sash" />
       </div>
-      <div className="flex flex-col items-center"></div>
+      <div className="flex flex-col items-center py-4">
+        <HomeIcon color={primary} h="24px" w="24px" />
+      </div>
     </div>
   );
 };
