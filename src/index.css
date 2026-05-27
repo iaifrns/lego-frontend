@@ -14,10 +14,12 @@
   min-height: 100vh;
   flex-direction: column;
   padding: 32px;
+  gap: 24px
 }
 
 @theme {
   --color-lightb: #e9edf4;
+  --color-text-color:#282f53;
   --color-subcolor: #3c4858;
   --color-primary: rgb(105, 98, 252);
   --color-bg-primary: rgb(240, 240, 245);
