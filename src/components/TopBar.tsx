@@ -13,7 +13,7 @@ const TopBar = ({
   const handleSidebarChange = () => setChangeSidebar(!changeSidebar);
 
   return (
-    <div className="w-full h-17.5 flex items-center top-0 sticky px-8 justify-between shadow-sm">
+    <div className="w-full h-17.5 flex bg-white z-10 items-center top-0 sticky px-8 justify-between shadow-sm">
       <div>
         {changeSidebar ? (
           <div onClick={handleSidebarChange}>

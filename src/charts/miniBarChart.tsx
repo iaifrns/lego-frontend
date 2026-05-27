@@ -7,21 +7,20 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 type MiniBarChartProps = {
   data: number[];
-  color: string|string[],
-  bcolor ?: string
+  color: string | string[];
+  bcolor?: string;
+  style?: string;
 };
 
 export default function MiniBarChart({
-  data, color, bcolor
+  data,
+  color,
+  bcolor,
+  style,
 }: MiniBarChartProps) {
   const chartData = {
     labels: data.map((_, i) => i),
@@ -32,7 +31,7 @@ export default function MiniBarChart({
         barThickness: 6,
         backgroundColor: color,
         borderWidth: 1,
-        borderColor: bcolor ? bcolor : color
+        borderColor: bcolor ? bcolor : color,
       },
     ],
   };
@@ -65,11 +64,8 @@ export default function MiniBarChart({
   };
 
   return (
-    <div className="w-24 h-16">
-      <Bar
-        data={chartData}
-        options={options}
-      />
+    <div className={style ? style :"w-24 h-16"}>
+      <Bar data={chartData} options={options} />
     </div>
   );
 }

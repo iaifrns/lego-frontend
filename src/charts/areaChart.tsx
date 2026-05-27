@@ -7,6 +7,7 @@ import {
   Tooltip,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { primary, secondary } from "../constants/colors";
 
 ChartJS.register(
   CategoryScale,
@@ -31,8 +32,8 @@ export default function DoubleLineChart({
       {
         label: "Sales",
         data: firstData,
-        borderColor: "#3B82F6",
-        backgroundColor: "#3B82F6",
+        borderColor: secondary,
+        backgroundColor: secondary,
         tension: 0.4,
         pointRadius: 0,
         borderWidth: 2,
@@ -40,8 +41,8 @@ export default function DoubleLineChart({
       {
         label: "Revenue",
         data: secondData,
-        borderColor: "#22C55E",
-        backgroundColor: "rgba(34,197,94,0.2)",
+        borderColor: primary,
+        backgroundColor: "rgba(108,95,252,0.4)",
         tension: 0.4,
         pointRadius: 0,
         borderWidth: 2,
@@ -55,7 +56,7 @@ export default function DoubleLineChart({
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: true, // true if you want labels
+        display: false, // true if you want labels
       },
       tooltip: {
         enabled: true,

@@ -9,7 +9,7 @@ const SideBar2 = ({
 }) => {
   return (
     <div
-      className="flex flex-col max-[992px]:-translate-x-full max-[992px]:w-0 max-[992px]:absolute max-[992px]:overflow-hidden transition-all ease-out"
+      className="flex flex-col max-[992px]:-translate-x-full max-[992px]:w-0 max-[992px]:absolute max-[992px]:overflow-hidden transition-all ease-out shadow-xl"
       onMouseEnter={() => setChangeSidebar(true)}
     >
       <div className="h-17.5 py-4 px-5 flex justify-center items-center border border-lightb">

@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+@import "tailwindcss";
 
 * {
   font-family: "IBM Plex Sans", sans-serif;
@@ -14,14 +14,15 @@
   min-height: 100vh;
   flex-direction: column;
   padding: 32px;
-  gap: 24px
+  gap: 24px;
 }
 
 @theme {
   --color-lightb: #e9edf4;
-  --color-text-color:#282f53;
+  --color-text-color: #282f53;
   --color-subcolor: #3c4858;
   --color-primary: rgb(105, 98, 252);
+  --color-secondary: rgb(5, 195, 251);
   --color-bg-primary: rgb(240, 240, 245);
   --font-plex-sans: "IBM Plex Sans", sans-serif;
   --font-plex-sans--font-optical-sizing: auto;

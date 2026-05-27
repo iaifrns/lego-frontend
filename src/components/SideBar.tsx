@@ -33,7 +33,7 @@ const SideBar = ({
 }) => {
   return (
     <div
-      className={`flex-1/3 max-w-75 flex flex-col max-[992px]:absolute max-[992px]:overflow-hidden transition-all duration-500 ease-in ${isHover ? "absolute z-10 bg-white w-full h-full" : "max-[992px]:-translate-x-full max-[992px]:w-0"}`}
+      className={`flex-1/3 max-w-75 flex flex-col max-[992px]:absolute max-[992px]:overflow-hidden transition-all duration-500 ease-in shadow-xl ${isHover ? "absolute z-10 bg-white w-full h-full" : "max-[992px]:-translate-x-full max-[992px]:w-0"}`}
       onMouseLeave={() => {
         if (setHoverLeave) {
           setHoverLeave(false);
