@@ -20,7 +20,7 @@ ChartJS.register(
 
 type MiniChartProps = {
   data: number[];
-  color: string
+  color: string | string[]
 };
 
 export default function MiniChart({

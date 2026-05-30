@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import LegoIcon from "../../assets/icons/lego";
 import LegoSetIcon from "../../assets/icons/legoSet";
 import DoubleLineChart from "../../charts/areaChart";
@@ -7,51 +8,40 @@ import PieChart from "../../charts/piechart";
 import { secondary } from "../../constants/colors";
 import { images } from "../../constants/images";
 import DashboardLayout from "../../layout/DashboardLayout";
+import { getDataCounts } from "./services/countsData";
+import { getGraphData } from "./services/getGraphData";
+import type { CountType, StatDataListType } from "./type";
 
-const mockData = [
-  {
-    title: "Total USer",
-    num: 45256,
-    color: "rgb(5,195,251)",
-    chart: (
-      <MiniBarChart
-        data={[12, 19, 8, 15, 22, 10, 17]}
-        color={["rgb(5,195,251)", "rgb(5,195,251,0.2)"]}
-        bcolor="rgb(5,195,251)"
-      />
-    ),
+const InitailCountData = {
+  sets: {
+    title: "Total Sets",
+    num: 0,
+    color: ["rgb(5,195,251)", "rgb(5,195,251,0.2)"],
+    chart: MiniBarChart,
+    desc: "pass 8 years",
   },
-  {
-    title: "Total Profit",
-    num: 45256,
+  parts: {
+    title: "Total Parts",
+    num: 0,
     color: "rgb(236,130,239)",
-    chart: (
-      <MiniChart
-        data={[10, 25, 15, 30, 20, 40, 35]}
-        color={"rgb(236,130,239)"}
-      />
-    ),
+    chart: MiniChart,
+    desc: "parts per parts categories",
   },
-  {
-    title: "Total Expenses",
-    num: 45256,
+  inventories: {
+    title: "Total Inventories",
+    num: 0,
     color: "#1dd871",
-    chart: (
-      <MiniBarChart data={[12, 19, 8, 15, 22, 10, 17]} color={"#1dd871"} />
-    ),
+    chart: MiniBarChart,
+    desc: "inventories per set",
   },
-  {
-    title: "Total Cost",
-    num: 45256,
+  inventoryParts: {
+    title: "Total Inventory_Parts",
+    num: 0,
     color: "rgb(247,183,49)",
-    chart: (
-      <MiniChart
-        data={[10, 25, 15, 30, 20, 40, 35]}
-        color={"rgb(247,183,49)"}
-      />
-    ),
+    chart: MiniChart,
+    desc: "Invetories and quentities",
   },
-];
+};
 
 const mockData2 = [
   {
@@ -324,6 +314,59 @@ const mockSets = [
 const totalNumber = mockParts.reduce((sum, item) => sum + item.number, 0);
 
 const DashboardPage = () => {
+  const [loader, setLoading] = useState(false);
+  const [countDataObj, setCountDataObj] = useState(InitailCountData);
+  const [graphData, setGraphData] = useState({
+    set: [],
+    parts: [],
+    invent: [],
+    invPart: [],
+  });
+
+  const handleSetCount = (data: CountType) =>
+    setCountDataObj({
+      ...countDataObj,
+      sets: { ...countDataObj.sets, num: data.sets },
+      parts: { ...countDataObj.parts, num: data.parts },
+      inventories: { ...countDataObj.inventories, num: data.inventory },
+      inventoryParts: {
+        ...countDataObj.inventoryParts,
+        num: data.invenoryPart,
+      },
+    });
+
+  const handleSetGraphData = (data: StatDataListType) => {
+    setGraphData({
+      ...graphData,
+      set: data.set,
+      parts: data.part,
+      invent: data.inventory,
+      invPart: data.inventoryPart,
+    });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([
+      getDataCounts(handleSetCount),
+      getGraphData(handleSetGraphData),
+    ]).then(() => {
+      setLoading(false);
+    });
+  }, []);
+
+  if (loader) {
+    return (
+      <DashboardLayout>
+        <div className="default-content">
+          <p className="text-2xl font-bold text-text-color animate-pulse">
+            Loading ...
+          </p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <div className="default-content">
@@ -337,7 +380,7 @@ const DashboardPage = () => {
         </div>
         {/* the 4 box analysis display */}
         <div className="w-full grid grid-cols-4 max-[1400px]:grid-cols-2 max-[600px]:grid-cols-1 gap-6">
-          {mockData.map((data, ind) => (
+          {Object.values(countDataObj).map((data, ind) => (
             <div
               className="p-8 bg-white rounded-lg flex justify-between items-center shadow-xs"
               key={ind + data.title}
@@ -345,11 +388,15 @@ const DashboardPage = () => {
               <div className="flex flex-col gap-2">
                 <p className="text-sm">{data.title}</p>
                 <p className="font-bold text-2xl text-text-color">{data.num}</p>
-                <p className="font-light text-xs text-gray-600">
-                  <span style={{ color: data.color }}>5%</span> last week
-                </p>
+                <p className="font-light text-xs text-gray-600">{data.desc}</p>
               </div>
-              <div>{data.chart}</div>
+              <div>
+                <data.chart
+                  data={Object.values(graphData)[ind]}
+                  color={data.color}
+                  bcolor={data.color[0]}
+                />
+              </div>
             </div>
           ))}
         </div>
