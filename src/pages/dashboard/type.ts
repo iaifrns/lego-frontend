@@ -3,6 +3,8 @@ export interface CountType {
   parts: number;
   inventory: number;
   invenoryPart: number;
+  color: number;
+  theme: number
 }
 
 export interface GraphDataType {

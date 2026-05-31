@@ -4,6 +4,8 @@ export const countSetsUrl = baseEndpointUrl + "/sets/count";
 export const countPartUrl = baseEndpointUrl + "/parts/count";
 export const countInventoryUrl = baseEndpointUrl + "/inventories/count";
 export const countInventoryPartUrl = baseEndpointUrl + "/inventoryPart/count";
+export const countColorUrl = baseEndpointUrl + '/color/count'
+export const countThemeUrl = baseEndpointUrl + '/theme/count'
 
 export const getLast8YearSetCountUrl =
   baseEndpointUrl + "/sets/last8_year_count";

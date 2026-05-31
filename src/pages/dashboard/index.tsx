@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import LegoIcon from "../../assets/icons/lego";
-import LegoSetIcon from "../../assets/icons/legoSet";
+import ColorIcon from "../../assets/icons/color";
+import ThemeIcon from "../../assets/icons/theme";
 import DoubleLineChart from "../../charts/areaChart";
 import MiniBarChart from "../../charts/miniBarChart";
 import MiniChart from "../../charts/miniLineChart";
@@ -10,8 +10,8 @@ import { images } from "../../constants/images";
 import DashboardLayout from "../../layout/DashboardLayout";
 import { getDataCounts } from "./services/countsData";
 import { getGraphData } from "./services/getGraphData";
-import type { CountType, StatDataListType } from "./type";
 import { getSetPartData } from "./services/getSetsPartData";
+import type { CountType, StatDataListType } from "./type";
 
 const InitailCountData = {
   sets: {
@@ -44,22 +44,22 @@ const InitailCountData = {
   },
 };
 
-const mockData2 = [
-  {
-    title: "Total Sets",
-    desc: "Total number of lego sets",
-    num: 45865,
+const InitialColorThemeComp = {
+  color: {
+    title: "Total Colors",
+    desc: "Total number of Colors",
+    num: 0,
     color: "bg-green-200",
-    icon: LegoSetIcon,
+    icon: ColorIcon,
   },
-  {
-    title: "Total Parts",
-    desc: "Total number of Parts",
-    num: 10865,
+  theme: {
+    title: "Total Themes",
+    desc: "Total number of Themes",
+    num: 0,
     color: "bg-yellow-200",
-    icon: LegoIcon,
+    icon: ThemeIcon,
   },
-];
+};
 
 const mockColors = [
   {
@@ -328,8 +328,9 @@ const DashboardPage = () => {
     sets: [],
     parts: [],
   });
+  const [colorThemeData, setColorThemeData] = useState(InitialColorThemeComp)
 
-  const handleSetCount = (data: CountType) =>
+  const handleSetCount = (data: CountType) =>{
     setCountDataObj({
       ...countDataObj,
       sets: { ...countDataObj.sets, num: data.sets },
@@ -340,6 +341,18 @@ const DashboardPage = () => {
         num: data.invenoryPart,
       },
     });
+    setColorThemeData({
+      ...colorThemeData,
+      color: {
+        ...colorThemeData.color,
+        num: data.color
+      },
+      theme: {
+        ...colorThemeData.theme,
+        num: data.theme
+      }
+    })
+  }
 
   const handleSetGraphData = (data: StatDataListType) => {
     setGraphData({
@@ -448,7 +461,7 @@ const DashboardPage = () => {
                 style="w-full h-60"
               />
             </div>
-            {mockData2.map((data, ind) => (
+            {Object.values(colorThemeData).map((data, ind) => (
               <div
                 className="p-6 flex w-full flex-col gap-4"
                 key={ind + data.title}
