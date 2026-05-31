@@ -20,17 +20,19 @@ ChartJS.register(
 type DoubleLineChartProps = {
   firstData: number[];
   secondData: number[];
+  label: number[]
 };
 
 export default function DoubleLineChart({
   firstData,
   secondData,
+  label
 }: DoubleLineChartProps) {
   const chartData = {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    labels: label,
     datasets: [
       {
-        label: "Sales",
+        label: "Number of Sets*100",
         data: firstData,
         borderColor: secondary,
         backgroundColor: secondary,
@@ -39,10 +41,10 @@ export default function DoubleLineChart({
         borderWidth: 2,
       },
       {
-        label: "Revenue",
+        label: "Number of Parts",
         data: secondData,
         borderColor: primary,
-        backgroundColor: "rgba(108,95,252,0.4)",
+        backgroundColor: "rgba(108,95,252,0.2)",
         tension: 0.4,
         pointRadius: 0,
         borderWidth: 2,

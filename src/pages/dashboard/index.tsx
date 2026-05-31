@@ -11,6 +11,7 @@ import DashboardLayout from "../../layout/DashboardLayout";
 import { getDataCounts } from "./services/countsData";
 import { getGraphData } from "./services/getGraphData";
 import type { CountType, StatDataListType } from "./type";
+import { getSetPartData } from "./services/getSetsPartData";
 
 const InitailCountData = {
   sets: {
@@ -322,6 +323,11 @@ const DashboardPage = () => {
     invent: [],
     invPart: [],
   });
+  const [dataAnalysis, setDataAnalysis] = useState({
+    year: [],
+    sets: [],
+    parts: [],
+  });
 
   const handleSetCount = (data: CountType) =>
     setCountDataObj({
@@ -345,11 +351,16 @@ const DashboardPage = () => {
     });
   };
 
+  const handleDataAnalysis = (data: { year: []; sets: []; parts: [] }) => {
+    setDataAnalysis({ year: data.year, sets: data.sets, parts: data.parts });
+  };
+
   useEffect(() => {
     setLoading(true);
     Promise.all([
       getDataCounts(handleSetCount),
       getGraphData(handleSetGraphData),
+      getSetPartData(handleDataAnalysis),
     ]).then(() => {
       setLoading(false);
     });
@@ -404,23 +415,24 @@ const DashboardPage = () => {
           <div className="bg-white rounded-xl w-[70%] max-[1400px]:w-full flex flex-col shadow-xs">
             <div className="px-6 py-4 border-b border-gray-300">
               <p className="text-xl text-text-color font-semibold">
-                Sales Analytics
+                Sets and Parts Analytics
               </p>
             </div>
             <div className="flex w-full pt-6 justify-center items-center gap-6">
               <div className="flex gap-2 items-center">
                 <div className="w-3 h-3 rounded-full bg-primary"></div>
-                <p className="text-sm">Total Sales</p>
+                <p className="text-sm">Total Parts</p>
               </div>
               <div className="flex gap-2 items-center">
                 <div className="w-3 h-3 rounded-full bg-secondary"></div>
-                <p className="text-sm">Total Revenue</p>
+                <p className="text-sm">Total Sets * 100</p>
               </div>
             </div>
             <div className="p-6 w-full">
               <DoubleLineChart
-                firstData={[10, 25, 15, 30, 20, 40]}
-                secondData={[5, 15, 20, 18, 35, 30]}
+                firstData={dataAnalysis.sets}
+                secondData={dataAnalysis.parts}
+                label={dataAnalysis.year}
               />
             </div>
           </div>

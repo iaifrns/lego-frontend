@@ -12,3 +12,5 @@ export const getInventoryGraphDataUrl =
   baseEndpointUrl + "/inventories/8_inventory_persets";
 export const getInventoryAndQuentityDataUrl =
   baseEndpointUrl + "/inventoryPart/inventory_and_quentity";
+
+export const getSetPArtDataUrl = baseEndpointUrl + "/sets/sets_part_analysis";
