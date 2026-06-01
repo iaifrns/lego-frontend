@@ -5,7 +5,7 @@ import DoubleLineChart from "../../charts/areaChart";
 import MiniBarChart from "../../charts/miniBarChart";
 import MiniChart from "../../charts/miniLineChart";
 import PieChart from "../../charts/piechart";
-import { secondary } from "../../constants/colors";
+import { primary, secondary } from "../../constants/colors";
 import { images } from "../../constants/images";
 import DashboardLayout from "../../layout/DashboardLayout";
 import { getDataCounts } from "./services/countsData";
@@ -13,6 +13,8 @@ import { getGraphData } from "./services/getGraphData";
 import { getSetPartData } from "./services/getSetsPartData";
 import type { CountType, StatDataListType } from "./type";
 import { getColors } from "./services/getColors";
+import PageNumber from "../../components/PageNumber";
+import LoaderIcon from "../../assets/icons/loader";
 
 const InitailCountData = {
   sets: {
@@ -285,7 +287,9 @@ const DashboardPage = () => {
   });
   const [colorThemeData, setColorThemeData] = useState(InitialColorThemeComp);
 
-  const [colors, setColors] = useState([])
+  const [colors, setColors] = useState([]);
+  const [colorPage, setColorPage] = useState(1);
+  const [colorLoader, setColorLoader] = useState(false);
 
   const handleSetCount = (data: CountType) => {
     setCountDataObj({
@@ -333,11 +337,15 @@ const DashboardPage = () => {
       getDataCounts(handleSetCount),
       getGraphData(handleSetGraphData),
       getSetPartData(handleDataAnalysis),
-      getColors(setColors)
     ]).then(() => {
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    setColorLoader(true);
+    getColors(setColors, colorPage).then(() => setColorLoader(false));
+  }, [colorPage]);
 
   if (loader) {
     return (
@@ -463,9 +471,22 @@ const DashboardPage = () => {
           </div>
           <div className="shadow-xs bg-white rounded-lg flex flex-col w-full h-fit">
             <div className="p-6 border-b border-gray-300">
-              <p className="font-semibold text-text-color">Top 10 Colors</p>
+              <div className="flex justify-between items-center">
+                <p className="font-semibold text-text-color">Liste of Colors</p>
+                <PageNumber
+                  page={colorPage}
+                  setPage={setColorPage}
+                  totalnum={colorThemeData.color.num}
+                  limit={10}
+                />
+              </div>
             </div>
-            <div className="p-6 flex flex-col gap-3">
+            <div className="p-6 flex flex-col h-150 gap-3">
+              {colorLoader && (
+                <div className="w-full flex justify-center">
+                  <LoaderIcon color={primary} w="30px" h="30px" />
+                </div>
+              )}
               {colors.map((data: any, ind) => (
                 <div
                   className="flex items-center justify-between"
@@ -474,7 +495,7 @@ const DashboardPage = () => {
                   <div className="flex gap-2 items-center">
                     <div
                       className="w-10 h-10"
-                      style={{ backgroundColor: '#'+data.rgb }}
+                      style={{ backgroundColor: "#" + data.rgb }}
                     ></div>
                     <div className="flex flex-col">
                       <p className="font-semibold text-text-color">
