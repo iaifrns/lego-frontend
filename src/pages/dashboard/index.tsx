@@ -15,6 +15,7 @@ import type { CountType, StatDataListType } from "./type";
 import { getColors } from "./services/getColors";
 import PageNumber from "../../components/PageNumber";
 import LoaderIcon from "../../assets/icons/loader";
+import { getTopParts } from "./services/getTopParts";
 
 const InitailCountData = {
   sets: {
@@ -291,6 +292,9 @@ const DashboardPage = () => {
   const [colorPage, setColorPage] = useState(1);
   const [colorLoader, setColorLoader] = useState(false);
 
+  const [topPartsData, setTopPartsData] = useState([])
+  const [totalPartsUsed, setTotalPartUsed] = useState(100)
+
   const handleSetCount = (data: CountType) => {
     setCountDataObj({
       ...countDataObj,
@@ -337,6 +341,7 @@ const DashboardPage = () => {
       getDataCounts(handleSetCount),
       getGraphData(handleSetGraphData),
       getSetPartData(handleDataAnalysis),
+      getTopParts(setTopPartsData, setTotalPartUsed)
     ]).then(() => {
       setLoading(false);
     });
@@ -459,7 +464,7 @@ const DashboardPage = () => {
         <div className="w-full grid grid-cols-3 max-[1400px]:grid-cols-2 max-[992px]:grid-cols-1 gap-6">
           <div className="shadow-xs bg-white rounded-lg flex flex-col w-full h-fit">
             <div className="p-6 border-b border-gray-300">
-              <p className="font-semibold text-text-color">Themes per Sets</p>
+              <p className="font-semibold text-text-color">Top Themes per Sets</p>
             </div>
             <div className="p-6 w-full flex justify-center">
               <PieChart
@@ -518,14 +523,14 @@ const DashboardPage = () => {
               </p>
             </div>
             <div className="flex flex-col gap-3 p-6">
-              {mockParts.map((data, ind) => (
-                <div className="flex flex-col w-full" key={ind + data.name}>
+              {topPartsData.map((data: any, ind) => (
+                <div className="flex flex-col w-full" key={ind + data.part_num}>
                   <div className="w-full flex justify-between">
-                    <p>{data.name}</p>
+                    <p>{data.part_name}</p>
                     <div className="flex gap-1 items-center">
-                      <p className="font-semibold">{data.number}</p>
+                      <p className="font-semibold">{data.totalUsage}</p>
                       <p className="text-sm text-primary">
-                        ({((data.number / totalNumber) * 100).toFixed(2)}%)
+                        ({((data.totalUsage / totalPartsUsed) * 100).toFixed(2)}%)
                       </p>
                     </div>
                   </div>

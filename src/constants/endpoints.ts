@@ -19,3 +19,4 @@ export const getSetPArtDataUrl = baseEndpointUrl + "/sets/sets_part_analysis";
 export const themeBarDataurl = baseEndpointUrl + "/theme/getThemeAnalysisData";
 
 export const getAllColorsUrl = baseEndpointUrl + '/color/getAll'
+export const getMostUsedPartUrl = baseEndpointUrl + '/inventoryPart/most_used_parts'
