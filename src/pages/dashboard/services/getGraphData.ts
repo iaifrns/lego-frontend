@@ -3,6 +3,7 @@ import {
   getInventoryGraphDataUrl,
   getLast8YearSetCountUrl,
   getPartCatCountUrl,
+  themeBarDataurl,
 } from "../../../constants/endpoints";
 import type { StatDataListType } from "../type";
 
@@ -54,19 +55,43 @@ const getInventoryAndQuentity = async () => {
   }
 };
 
+const getThemeBarData = async () => {
+  let data = [];
+  try {
+    const response = await fetch(themeBarDataurl);
+    const result = await response.json();
+
+    if (result.success) {
+      data = result.data;
+    }
+  } catch (e) {
+    console.log(e);
+  } finally {
+    return data;
+  }
+};
+
 export const getGraphData = async (setData: (v: StatDataListType) => void) => {
-  const [setsData, partCatData, inventoryData, inventoryPartData] =
-    await Promise.all([
-      getLast8YearSetCount(),
-      getPartCatData(),
-      getInventoryGraphData(),
-      getInventoryAndQuentity(),
-    ]);
+  const [
+    setsData,
+    partCatData,
+    inventoryData,
+    inventoryPartData,
+    themeBarData,
+  ] = await Promise.all([
+    getLast8YearSetCount(),
+    getPartCatData(),
+    getInventoryGraphData(),
+    getInventoryAndQuentity(),
+    getThemeBarData(),
+  ]);
   let dataList: StatDataListType = {
     set: [],
     part: [],
     inventory: [],
     inventoryPart: [],
+    theme: [],
+    pieTheme: [],
   };
 
   if (setsData.success) {
@@ -108,6 +133,14 @@ export const getGraphData = async (setData: (v: StatDataListType) => void) => {
       ),
     };
   }
+
+  dataList = {
+    ...dataList,
+    theme: themeBarData.slice(10).map((set: { _id: number; count: number }) => {
+      return set.count;
+    }),
+    pieTheme: themeBarData
+  };
 
   setData(dataList);
 };

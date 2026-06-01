@@ -4,7 +4,7 @@ export interface CountType {
   inventory: number;
   invenoryPart: number;
   color: number;
-  theme: number
+  theme: number;
 }
 
 export interface GraphDataType {
@@ -14,8 +14,10 @@ export interface GraphDataType {
 }
 
 export interface StatDataListType {
-    set: [],
-    part: [],
-    inventory: [],
-    inventoryPart: []
+  set: [];
+  part: [];
+  inventory: [];
+  inventoryPart: [];
+  theme: [];
+  pieTheme: [];
 }

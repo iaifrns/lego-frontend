@@ -1,27 +1,16 @@
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { generateRandomColors } from "../utils/generateColors";
 
-ChartJS.register(
-  ArcElement,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 type PieChartProps = {
   data: number[];
   labels: string[];
+  style?: string;
 };
 
-export default function PieChart({
-  data,
-  labels,
-}: PieChartProps) {
+export default function PieChart({ data, labels, style }: PieChartProps) {
   const chartData = {
     labels,
     datasets: [
@@ -44,11 +33,8 @@ export default function PieChart({
   };
 
   return (
-    <div className="w-75 h-75">
-      <Pie
-        data={chartData}
-        options={options}
-      />
+    <div className={style ? style : "w-75 h-75"}>
+      <Pie data={chartData} options={options} />
     </div>
   );
 }

@@ -12,6 +12,7 @@ import { getDataCounts } from "./services/countsData";
 import { getGraphData } from "./services/getGraphData";
 import { getSetPartData } from "./services/getSetsPartData";
 import type { CountType, StatDataListType } from "./type";
+import { getColors } from "./services/getColors";
 
 const InitailCountData = {
   sets: {
@@ -60,54 +61,6 @@ const InitialColorThemeComp = {
     icon: ThemeIcon,
   },
 };
-
-const mockColors = [
-  {
-    id: -1,
-    name: "Unknown",
-    color: "#0033B2",
-  },
-  {
-    id: 0,
-    name: "Black",
-    color: "#05131D",
-  },
-  {
-    id: 1,
-    name: "Blue",
-    color: "#0055BF",
-  },
-  {
-    id: 2,
-    name: "Green",
-    color: "#237841",
-  },
-  {
-    id: 3,
-    name: "Dark Turquoise",
-    color: "#008F9B",
-  },
-  {
-    id: 4,
-    name: "Red",
-    color: "#C91A09",
-  },
-  {
-    id: 5,
-    name: "Dark Pink",
-    color: "#C870A0",
-  },
-  {
-    id: 6,
-    name: "Brown",
-    color: "#583927",
-  },
-  {
-    id: 7,
-    name: "Light Gray",
-    color: "#9BA19D",
-  },
-];
 
 const mockParts = [
   {
@@ -322,15 +275,19 @@ const DashboardPage = () => {
     parts: [],
     invent: [],
     invPart: [],
+    theme: [],
+    pieTheme: [],
   });
   const [dataAnalysis, setDataAnalysis] = useState({
     year: [],
     sets: [],
     parts: [],
   });
-  const [colorThemeData, setColorThemeData] = useState(InitialColorThemeComp)
+  const [colorThemeData, setColorThemeData] = useState(InitialColorThemeComp);
 
-  const handleSetCount = (data: CountType) =>{
+  const [colors, setColors] = useState([])
+
+  const handleSetCount = (data: CountType) => {
     setCountDataObj({
       ...countDataObj,
       sets: { ...countDataObj.sets, num: data.sets },
@@ -345,14 +302,14 @@ const DashboardPage = () => {
       ...colorThemeData,
       color: {
         ...colorThemeData.color,
-        num: data.color
+        num: data.color,
       },
       theme: {
         ...colorThemeData.theme,
-        num: data.theme
-      }
-    })
-  }
+        num: data.theme,
+      },
+    });
+  };
 
   const handleSetGraphData = (data: StatDataListType) => {
     setGraphData({
@@ -361,6 +318,8 @@ const DashboardPage = () => {
       parts: data.part,
       invent: data.inventory,
       invPart: data.inventoryPart,
+      theme: data.theme,
+      pieTheme: data.pieTheme,
     });
   };
 
@@ -374,6 +333,7 @@ const DashboardPage = () => {
       getDataCounts(handleSetCount),
       getGraphData(handleSetGraphData),
       getSetPartData(handleDataAnalysis),
+      getColors(setColors)
     ]).then(() => {
       setLoading(false);
     });
@@ -454,9 +414,9 @@ const DashboardPage = () => {
               className="p-6 pb-0 flex flex-col gap-4 rounded-t-xl bg-center bg-cover relative"
               style={{ backgroundImage: `url(${images.BGIMG})` }}
             >
-              <p className="text-white font-semibold">Popular Parts</p>
+              <p className="text-white font-semibold">Colors & Themes</p>
               <MiniBarChart
-                data={[12, 19, 8, 15, 22, 10, 17, 5]}
+                data={graphData.theme}
                 color={secondary}
                 style="w-full h-60"
               />
@@ -495,8 +455,9 @@ const DashboardPage = () => {
             </div>
             <div className="p-6 w-full flex justify-center">
               <PieChart
-                labels={["Electronics", "Fashion", "Food", "Books"]}
-                data={[35, 25, 20, 20]}
+                labels={graphData.pieTheme.map((data: any) => data.themeName)}
+                data={graphData.pieTheme.map((data: any) => data.count)}
+                style="w-full h-110"
               />
             </div>
           </div>
@@ -505,7 +466,7 @@ const DashboardPage = () => {
               <p className="font-semibold text-text-color">Top 10 Colors</p>
             </div>
             <div className="p-6 flex flex-col gap-3">
-              {mockColors.map((data, ind) => (
+              {colors.map((data: any, ind) => (
                 <div
                   className="flex items-center justify-between"
                   key={ind + data.id}
@@ -513,13 +474,13 @@ const DashboardPage = () => {
                   <div className="flex gap-2 items-center">
                     <div
                       className="w-10 h-10"
-                      style={{ backgroundColor: data.color }}
+                      style={{ backgroundColor: '#'+data.rgb }}
                     ></div>
                     <div className="flex flex-col">
                       <p className="font-semibold text-text-color">
                         {data.name}
                       </p>
-                      <p className="text-xs">code: {data.color}</p>
+                      <p className="text-xs">code: #{data.rgb}</p>
                     </div>
                   </div>
                   <p className="font-semibold text-sm text-text-color">
