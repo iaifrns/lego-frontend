@@ -25,24 +25,24 @@ const PageNumber = ({
         1
       </div>
       {page > 1 && page < 11 && (
-        <div className="flex justify-center items-center w-5 border border-primary cursor-pointer text-primary">
+        <div className="flex justify-center items-center min-w-5 border border-primary cursor-pointer text-primary">
           {page}
         </div>
       )}
       ,...,
       {page != 1 && page > 10 && page < 14 && (
-        <div className="flex justify-center items-center w-5 border border-primary cursor-pointer text-primary">
+        <div className="flex justify-center items-center min-w-5 border border-primary cursor-pointer text-primary">
           {page}
         </div>
       )}
       <div
-        className={`flex justify-center items-center w-5 border cursor-pointer ${page == maxPage ? "border-primary text-primary" : "border-gray-400"}`}
+        className={`flex justify-center items-center min-w-5 border cursor-pointer ${page == maxPage ? "border-primary text-primary" : "border-gray-400"}`}
         onClick={() => page != maxPage && setPage(maxPage)}
       >
         {maxPage}
       </div>
       <div
-        className={`flex justify-center items-center w-5 border border-gray-400 cursor-pointer ${page == maxPage && "text-gray-400"}`}
+        className={`flex justify-center items-center min-w-5 border border-gray-400 cursor-pointer ${page == maxPage && "text-gray-400"}`}
         onClick={() => page != maxPage && setPage(page + 1)}
       >
         {">"}

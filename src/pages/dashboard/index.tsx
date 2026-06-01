@@ -16,6 +16,7 @@ import { getColors } from "./services/getColors";
 import PageNumber from "../../components/PageNumber";
 import LoaderIcon from "../../assets/icons/loader";
 import { getTopParts } from "./services/getTopParts";
+import { getAllSets } from "./services/getAllSets";
 
 const InitailCountData = {
   sets: {
@@ -292,8 +293,12 @@ const DashboardPage = () => {
   const [colorPage, setColorPage] = useState(1);
   const [colorLoader, setColorLoader] = useState(false);
 
-  const [topPartsData, setTopPartsData] = useState([])
-  const [totalPartsUsed, setTotalPartUsed] = useState(100)
+  const [topPartsData, setTopPartsData] = useState([]);
+  const [totalPartsUsed, setTotalPartUsed] = useState(100);
+
+  const [sets, setSets] = useState([]);
+  const [setLoader, setSetLoader] = useState(false);
+  const [setPage, setSetPage] = useState(1);
 
   const handleSetCount = (data: CountType) => {
     setCountDataObj({
@@ -341,7 +346,7 @@ const DashboardPage = () => {
       getDataCounts(handleSetCount),
       getGraphData(handleSetGraphData),
       getSetPartData(handleDataAnalysis),
-      getTopParts(setTopPartsData, setTotalPartUsed)
+      getTopParts(setTopPartsData, setTotalPartUsed),
     ]).then(() => {
       setLoading(false);
     });
@@ -351,6 +356,11 @@ const DashboardPage = () => {
     setColorLoader(true);
     getColors(setColors, colorPage).then(() => setColorLoader(false));
   }, [colorPage]);
+
+  useEffect(() => {
+    setSetLoader(true);
+    getAllSets(setPage, setSets).then(() => setSetLoader(false));
+  }, [setPage]);
 
   if (loader) {
     return (
@@ -464,7 +474,9 @@ const DashboardPage = () => {
         <div className="w-full grid grid-cols-3 max-[1400px]:grid-cols-2 max-[992px]:grid-cols-1 gap-6">
           <div className="shadow-xs bg-white rounded-lg flex flex-col w-full h-fit">
             <div className="p-6 border-b border-gray-300">
-              <p className="font-semibold text-text-color">Top Themes per Sets</p>
+              <p className="font-semibold text-text-color">
+                Top Themes per Sets
+              </p>
             </div>
             <div className="p-6 w-full flex justify-center">
               <PieChart
@@ -530,7 +542,8 @@ const DashboardPage = () => {
                     <div className="flex gap-1 items-center">
                       <p className="font-semibold">{data.totalUsage}</p>
                       <p className="text-sm text-primary">
-                        ({((data.totalUsage / totalPartsUsed) * 100).toFixed(2)}%)
+                        ({((data.totalUsage / totalPartsUsed) * 100).toFixed(2)}
+                        %)
                       </p>
                     </div>
                   </div>
@@ -561,34 +574,44 @@ const DashboardPage = () => {
               <th className="p-3">theme name</th>
               <th className="p-3">year</th>
             </tr>
-            {mockSets.map((data, ind) => (
-              <tr className="border-b border-b-gray-200" key={ind + data.id}>
-                {Object.values(data).map((item, i) => (
-                  <td className="p-3" key={`${item} ${i}`}>
-                    {item}
-                  </td>
-                ))}
+            {sets.map((data: any, ind) => (
+              <tr
+                className="border-b border-b-gray-200"
+                key={ind + data.set_num}
+              >
+                <td className="p-3" key={`${data.set_num} ${ind}`}>
+                  {data.set_num}
+                </td>
+                <td className="p-3" key={`${data.name} ${ind}`}>
+                  {data.name}
+                </td>
+                <td className="p-3" key={`${data.num_parts} ${ind}`}>
+                  {data.num_parts}
+                </td>
+                <td className="p-3" key={`${data.set_num} ${ind}`}>
+                  {data.set_num}
+                </td>
+                <td className="p-3" key={`${data.theme} ${ind}`}>
+                  {data.theme}
+                </td>
+                <td className="p-3" key={`${data.year} ${ind}`}>
+                  {data.year}
+                </td>
               </tr>
             ))}
           </table>
-          <div className="p-6 flex justify-end">
-            <div className="flex">
-              <div className="py-2 px-4 cursor-pointer text-text-color rounded-l-md border border-gray-300 hover:text-primary">
-                Prev
+          <div className="p-6 flex justify-end gap-8">
+            {setLoader && (
+              <div className="w-full flex justify-center">
+                <LoaderIcon color={primary} w="30px" h="30px" />
               </div>
-              <div
-                className="py-2 px-4 cursor-pointer text-white bg-primary border border-gray-300"
-                hover:text-primary
-              >
-                1
-              </div>
-              <div className="py-2 px-4 cursor-pointer border border-gray-300 hover:text-primary">
-                2
-              </div>
-              <div className="py-2 px-4 cursor-pointer text-text-color rounded-r-md border border-gray-300 hover:text-primary">
-                Next
-              </div>
-            </div>
+            )}
+            <PageNumber
+              limit={15}
+              page={setPage}
+              setPage={setSetPage}
+              totalnum={countDataObj.sets.num}
+            />
           </div>
         </div>
       </div>
