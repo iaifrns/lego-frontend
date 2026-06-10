@@ -51,6 +51,11 @@ const SideBar = ({
           icon={<HomeIcon color={primary} h="1.3rem" w="1.3rem" />}
           active
         />
+        <Menu
+          text="Groq Details"
+          icon={<HomeIcon color={primary} h="1.3rem" w="1.3rem" />}
+          active
+        />
       </div>
     </div>
   );

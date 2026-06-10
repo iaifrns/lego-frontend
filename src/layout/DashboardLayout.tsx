@@ -1,19 +1,23 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
+import { Outlet } from "react-router";
 import SideBar from "../components/SideBar";
-import TopBar from "../components/TopBar";
 import SideBar2 from "../components/SideBar2";
+import TopBar from "../components/TopBar";
 
 const showAppropiateSidebar = (
   changeSidebar: boolean,
   hoverOnSidebar: boolean,
   isMobile: boolean,
   setHoverOnSidebar: (v: boolean) => void,
-  setChangeSidebar: (v:boolean) => void
+  setChangeSidebar: (v: boolean) => void,
 ) => {
   switch (true) {
     case isMobile:
       return (
-        <div className={`${changeSidebar ? 'absolute' : 'hidden'} z-10 w-full h-full bg-black/15`} onClick={()=>setChangeSidebar(false)} >
+        <div
+          className={`${changeSidebar ? "absolute" : "hidden"} z-10 w-full h-full bg-black/15`}
+          onClick={() => setChangeSidebar(false)}
+        >
           <SideBar isHover />
         </div>
       );
@@ -28,7 +32,7 @@ const showAppropiateSidebar = (
   }
 };
 
-const DashboardLayout = ({ children }: { children: ReactNode }) => {
+const DashboardLayout = () => {
   const [changeSidebar, setChangeSidebar] = useState(false);
   const [hoverOnSidebar, setHoverOnSidebar] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
@@ -54,7 +58,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         hoverOnSidebar,
         isMobile,
         setHoverOnSidebar,
-        setChangeSidebar
+        setChangeSidebar,
       )}
       <div className="w-full h-fit max-h-screen flex-2/3 overflow-y-scroll relative transition-all ease-in">
         <TopBar
@@ -62,7 +66,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
           changeSidebar={changeSidebar}
         />
         <div className="bg-primary/10">
-        {children}
+          <Outlet />
         </div>
       </div>
     </div>
