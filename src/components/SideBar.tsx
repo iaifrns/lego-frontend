@@ -1,19 +1,28 @@
 import type { ReactNode } from "react";
 import { images } from "../constants/images";
 import HomeIcon from "../assets/icons/home";
-import { primary } from "../constants/colors";
+import { defaultColor, primary } from "../constants/colors";
+import InfoIcon from "../assets/icons/info";
+import { useNavigate } from "react-router";
 
 const Menu = ({
   text,
   icon,
   active,
+  path,
 }: {
   text: string;
   icon: ReactNode;
   active: boolean;
+  path: string;
 }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex gap-2 items-center">
+    <div
+      className="flex gap-2 items-center cursor-pointer"
+      onClick={() => navigate(path)}
+    >
       {icon}
       <p
         className={`font-medium font-plex-sans text-[15px] ${active && "text-primary"}`}
@@ -23,6 +32,8 @@ const Menu = ({
     </div>
   );
 };
+
+const active: number = 1;
 
 const SideBar = ({
   isHover = false,
@@ -39,7 +50,7 @@ const SideBar = ({
           setHoverLeave(false);
         }
       }}
-      onClick={(e)=>e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
     >
       <div className="w-full h-17.5 py-4 px-5 flex justify-center items-center border border-lightb">
         <img src={images.LOGO} alt="full company logo" />
@@ -49,12 +60,14 @@ const SideBar = ({
         <Menu
           text="Dashboard"
           icon={<HomeIcon color={primary} h="1.3rem" w="1.3rem" />}
-          active
+          active={active == 1}
+          path="/"
         />
         <Menu
           text="Groq Details"
-          icon={<HomeIcon color={primary} h="1.3rem" w="1.3rem" />}
-          active
+          icon={<InfoIcon color={defaultColor} h="1.3rem" w="1.3rem" />}
+          active={active == 2}
+          path="/groq_detail"
         />
       </div>
     </div>
