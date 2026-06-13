@@ -65,48 +65,6 @@ const InitialColorThemeComp = {
   },
 };
 
-const mockParts = [
-  {
-    name: "Set 0687 Activity Booklet",
-    number: Math.floor(Math.random() * 1000) + 1,
-  },
-  {
-    name: "Baseplate 16 x 30 with Set 080 Yellow House Print",
-    number: Math.floor(Math.random() * 1000) + 1,
-  },
-  {
-    name: "Baseplate 16 x 24 with Set 080 Small White House Print",
-    number: Math.floor(Math.random() * 10) + 1,
-  },
-  {
-    name: "Baseplate 16 x 24 with Set 080 Red House Print",
-    number: Math.floor(Math.random() * 100) + 1,
-  },
-  {
-    name: "Baseplate 16 x 24 with Set 080 Large White House Print",
-    number: Math.floor(Math.random() * 1000) + 1,
-  },
-  {
-    name: "Homemaker Bookcase 2 x 4 x 4",
-    number: Math.floor(Math.random() * 100) + 1,
-  },
-  {
-    name: "Baseplate 24 x 32",
-    number: Math.floor(Math.random() * 100) + 1,
-  },
-  {
-    name: "Sticker Sheet #1 for 41055-1",
-    number: Math.floor(Math.random() * 1000) + 1,
-  },
-  {
-    name: "Sticker for Set 10019 - (43274/4170393)",
-    number: Math.floor(Math.random() * 10) + 1,
-  },
-];
-
-// Calculate total
-const totalNumber = mockParts.reduce((sum, item) => sum + item.number, 0);
-
 const DashboardPage = () => {
   const [loader, setLoading] = useState(false);
   const [countDataObj, setCountDataObj] = useState(InitailCountData);
@@ -378,7 +336,7 @@ const DashboardPage = () => {
                   <div
                     className={`rounded-l-lg p-1 absolute bg-primary`}
                     style={{
-                      width: `${Math.floor((data.number / totalNumber) * 100)}%`,
+                      width: `${Math.floor((data.number / data.totalUsage) * 100)}%`,
                     }}
                   ></div>
                   <div className="w-full rounded-lg p-1 bg-gray-200"></div>

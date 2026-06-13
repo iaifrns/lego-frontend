@@ -1,11 +1,13 @@
 import { useLoaderData } from "react-router";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const GroqDetailPage = () => {
   const data = useLoaderData();
 
   return (
-    <div>
-      <p>{data.data}</p>
+    <div className="prose max-w-none default-content">
+      <ReactMarkdown remarkPlugins= {[remarkGfm]}>{data.data}</ReactMarkdown>
     </div>
   );
 };

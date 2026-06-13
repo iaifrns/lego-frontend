@@ -1,27 +1,34 @@
-import type { ReactNode } from "react";
+import { useContext, type ReactNode } from "react";
 import { images } from "../constants/images";
 import HomeIcon from "../assets/icons/home";
 import { defaultColor, primary } from "../constants/colors";
 import InfoIcon from "../assets/icons/info";
 import { useNavigate } from "react-router";
+import { ActiveMenuContext } from "../context/ActiveMenuProvider";
+import { activeMenuData } from "../constants/active";
 
 const Menu = ({
   text,
   icon,
   active,
   path,
+  onclick,
 }: {
   text: string;
   icon: ReactNode;
   active: boolean;
   path: string;
+  onclick: () => void;
 }) => {
   const navigate = useNavigate();
 
   return (
     <div
       className="flex gap-2 items-center cursor-pointer"
-      onClick={() => navigate(path)}
+      onClick={() => {
+        onclick();
+        navigate(path);
+      }}
     >
       {icon}
       <p
@@ -33,8 +40,6 @@ const Menu = ({
   );
 };
 
-const active: number = 1;
-
 const SideBar = ({
   isHover = false,
   setHoverLeave,
@@ -42,6 +47,8 @@ const SideBar = ({
   isHover?: boolean;
   setHoverLeave?: (v: boolean) => void;
 }) => {
+  const { active, setActive } = useContext(ActiveMenuContext);
+
   return (
     <div
       className={`flex-1/3 max-w-75 flex flex-col max-[992px]:absolute max-[992px]:overflow-hidden transition-all duration-500 ease-in shadow-xl ${isHover ? "absolute z-10 bg-white w-full h-full" : "max-[992px]:-translate-x-full max-[992px]:w-0"}`}
@@ -59,15 +66,33 @@ const SideBar = ({
         <p className="text-subcolor text-xs font-plex-sans">MAIN</p>
         <Menu
           text="Dashboard"
-          icon={<HomeIcon color={primary} h="1.3rem" w="1.3rem" />}
-          active={active == 1}
+          icon={
+            <HomeIcon
+              color={
+                active === activeMenuData.DASHBOARD ? primary : defaultColor
+              }
+              h="1.3rem"
+              w="1.3rem"
+            />
+          }
+          active={active == activeMenuData.DASHBOARD}
           path="/"
+          onclick={() => setActive(activeMenuData.DASHBOARD)}
         />
         <Menu
           text="Groq Details"
-          icon={<InfoIcon color={defaultColor} h="1.3rem" w="1.3rem" />}
-          active={active == 2}
+          icon={
+            <InfoIcon
+              color={
+                active === activeMenuData.GROQDETAIL ? primary : defaultColor
+              }
+              h="1.3rem"
+              w="1.3rem"
+            />
+          }
+          active={active == activeMenuData.GROQDETAIL}
           path="/groq_detail"
+          onclick={() => setActive(activeMenuData.GROQDETAIL)}
         />
       </div>
     </div>
