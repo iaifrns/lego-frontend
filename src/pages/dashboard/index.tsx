@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLoaderData } from "react-router";
 import ColorIcon from "../../assets/icons/color";
 import LoaderIcon from "../../assets/icons/loader";
 import ThemeIcon from "../../assets/icons/theme";
@@ -9,12 +10,8 @@ import PieChart from "../../charts/piechart";
 import PageNumber from "../../components/PageNumber";
 import { primary, secondary } from "../../constants/colors";
 import { images } from "../../constants/images";
-import { getDataCounts } from "./services/countsData";
 import { getAllSets } from "./services/getAllSets";
 import { getColors } from "./services/getColors";
-import { getGraphData } from "./services/getGraphData";
-import { getSetPartData } from "./services/getSetsPartData";
-import { getTopParts } from "./services/getTopParts";
 import type { CountType, StatDataListType } from "./type";
 
 const InitailCountData = {
@@ -66,7 +63,8 @@ const InitialColorThemeComp = {
 };
 
 const DashboardPage = () => {
-  const [loader, setLoading] = useState(false);
+  const responseData = useLoaderData();
+
   const [countDataObj, setCountDataObj] = useState(InitailCountData);
   const [graphData, setGraphData] = useState({
     set: [],
@@ -87,63 +85,60 @@ const DashboardPage = () => {
   const [colorPage, setColorPage] = useState(1);
   const [colorLoader, setColorLoader] = useState(false);
 
-  const [topPartsData, setTopPartsData] = useState([]);
-  const [totalPartsUsed, setTotalPartUsed] = useState(100);
+  const topPartsData = responseData[3][0] as any[];
+  const totalPartsUsed = responseData[3][1];
 
   const [sets, setSets] = useState([]);
   const [setLoader, setSetLoader] = useState(false);
   const [setPage, setSetPage] = useState(1);
 
-  const handleSetCount = (data: CountType) => {
+  const handleSetCount = () => {
+    const d = responseData[0] as CountType;
     setCountDataObj({
       ...countDataObj,
-      sets: { ...countDataObj.sets, num: data.sets },
-      parts: { ...countDataObj.parts, num: data.parts },
-      inventories: { ...countDataObj.inventories, num: data.inventory },
+      sets: { ...countDataObj.sets, num: d.sets },
+      parts: { ...countDataObj.parts, num: d.parts },
+      inventories: { ...countDataObj.inventories, num: d.inventory },
       inventoryParts: {
         ...countDataObj.inventoryParts,
-        num: data.invenoryPart,
+        num: d.invenoryPart,
       },
     });
     setColorThemeData({
       ...colorThemeData,
       color: {
         ...colorThemeData.color,
-        num: data.color,
+        num: d.color,
       },
       theme: {
         ...colorThemeData.theme,
-        num: data.theme,
+        num: d.theme,
       },
     });
   };
 
-  const handleSetGraphData = (data: StatDataListType) => {
+  const handleSetGraphData = () => {
+    const d = responseData[1] as StatDataListType;
     setGraphData({
       ...graphData,
-      set: data.set,
-      parts: data.part,
-      invent: data.inventory,
-      invPart: data.inventoryPart,
-      theme: data.theme,
-      pieTheme: data.pieTheme,
+      set: d.set,
+      parts: d.part,
+      invent: d.inventory,
+      invPart: d.inventoryPart,
+      theme: d.theme,
+      pieTheme: d.pieTheme,
     });
   };
 
-  const handleDataAnalysis = (data: { year: []; sets: []; parts: [] }) => {
-    setDataAnalysis({ year: data.year, sets: data.sets, parts: data.parts });
+  const handleDataAnalysis = () => {
+    const d = responseData[2];
+    setDataAnalysis({ year: d.year, sets: d.sets, parts: d.parts });
   };
 
   useEffect(() => {
-    setLoading(true);
-    Promise.all([
-      getDataCounts(handleSetCount),
-      getGraphData(handleSetGraphData),
-      getSetPartData(handleDataAnalysis),
-      getTopParts(setTopPartsData, setTotalPartUsed),
-    ]).then(() => {
-      setLoading(false);
-    });
+    handleSetCount();
+    handleSetGraphData();
+    handleDataAnalysis();
   }, []);
 
   useEffect(() => {
@@ -155,16 +150,6 @@ const DashboardPage = () => {
     setSetLoader(true);
     getAllSets(setPage, setSets).then(() => setSetLoader(false));
   }, [setPage]);
-
-  if (loader) {
-    return (
-      <div className="default-content">
-        <p className="text-2xl font-bold text-text-color animate-pulse">
-          Loading ...
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="default-content">

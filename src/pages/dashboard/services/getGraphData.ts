@@ -71,7 +71,7 @@ const getThemeBarData = async () => {
   }
 };
 
-export const getGraphData = async (setData: (v: StatDataListType) => void) => {
+export const getGraphData = async () => {
   const [
     setsData,
     partCatData,
@@ -139,8 +139,8 @@ export const getGraphData = async (setData: (v: StatDataListType) => void) => {
     theme: themeBarData.slice(10).map((set: { _id: number; count: number }) => {
       return set.count;
     }),
-    pieTheme: themeBarData
+    pieTheme: themeBarData,
   };
 
-  setData(dataList);
+  return dataList;
 };

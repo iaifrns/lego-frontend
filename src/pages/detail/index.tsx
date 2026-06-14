@@ -1,5 +1,5 @@
-import { useLoaderData } from "react-router";
 import ReactMarkdown from "react-markdown";
+import { useLoaderData } from "react-router";
 import remarkGfm from "remark-gfm";
 
 const GroqDetailPage = () => {

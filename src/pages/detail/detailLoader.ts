@@ -1,7 +1,7 @@
-import { getPromptDetailUrl } from "../../constants/endpoints"
+import { getPromptDetailUrl } from "../../constants/endpoints";
 
 export const detailGroqLoader = async () => {
-    const response = await fetch(getPromptDetailUrl)
+  const response = await fetch(getPromptDetailUrl);
 
-    return response.json()
-}
+  return response.json();
+};

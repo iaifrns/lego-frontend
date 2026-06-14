@@ -103,9 +103,9 @@ export const themeCount = async () => {
   }
 };
 
-export const getDataCounts = async (handleSetCount: (v: CountType) => void) => {
+export const getDataCounts = async () => {
   let count = { sets: 0, parts: 0, inventory: 0, invenoryPart: 0, color: 0, theme: 0 };
-  Promise.all([
+  await Promise.all([
     setCount(),
     partCount(),
     inventoryCount(),
@@ -119,6 +119,7 @@ export const getDataCounts = async (handleSetCount: (v: CountType) => void) => {
     count.invenoryPart = data[3];
     count.color = data[4]
     count.theme = data[5]
-    handleSetCount(count);
   });
+
+  return count
 };

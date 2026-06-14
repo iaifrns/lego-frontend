@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 import SideBar from "../components/SideBar";
 import SideBar2 from "../components/SideBar2";
 import TopBar from "../components/TopBar";
@@ -37,6 +37,10 @@ const DashboardLayout = () => {
   const [hoverOnSidebar, setHoverOnSidebar] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 992);
 
+  const navigation = useNavigation();
+
+  const isLoading = navigation.state === "loading";
+
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 992);
 
@@ -65,8 +69,13 @@ const DashboardLayout = () => {
           setChangeSidebar={setChangeSidebar}
           changeSidebar={changeSidebar}
         />
-        <div className="bg-primary/10">
-          <Outlet />
+        <div className="bg-primary/10 flex flex-col">
+          {isLoading && (
+            <div className="flex justify-center items-center w-full h-screen font-bold text-2xl animate-bounce">
+              Loading ...
+            </div>
+          )}
+          {!isLoading && <Outlet />}
         </div>
       </div>
     </div>
