@@ -1,4 +1,5 @@
 export interface ActiveMenuType {
     DASHBOARD: string,
-    GROQDETAIL: string    
+    GROQDETAIL: string,
+    ADVANCESEARCH: string
 }

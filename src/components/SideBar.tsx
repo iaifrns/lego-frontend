@@ -6,6 +6,7 @@ import InfoIcon from "../assets/icons/info";
 import { useNavigate } from "react-router";
 import { ActiveMenuContext } from "../context/ActiveMenuProvider";
 import { activeMenuData } from "../constants/active";
+import AdvanceIcon from "../assets/icons/advance";
 
 const Menu = ({
   text,
@@ -93,6 +94,21 @@ const SideBar = ({
           active={active == activeMenuData.GROQDETAIL}
           path="/groq_detail"
           onclick={() => setActive(activeMenuData.GROQDETAIL)}
+        />
+        <Menu
+          text="Advance Search"
+          icon={
+            <AdvanceIcon
+              color={
+                active === activeMenuData.ADVANCESEARCH ? primary : defaultColor
+              }
+              h="1.3rem"
+              w="1.3rem"
+            />
+          }
+          active={active == activeMenuData.ADVANCESEARCH}
+          path="adavance_search"
+          onclick={() => setActive(activeMenuData.ADVANCESEARCH)}
         />
       </div>
     </div>

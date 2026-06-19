@@ -18,8 +18,11 @@ export const getInventoryAndQuentityDataUrl =
 export const getSetPArtDataUrl = baseEndpointUrl + "/sets/sets_part_analysis";
 export const themeBarDataurl = baseEndpointUrl + "/theme/getThemeAnalysisData";
 
-export const getAllColorsUrl = baseEndpointUrl + '/color/getAll'
-export const getMostUsedPartUrl = baseEndpointUrl + '/inventoryPart/most_used_parts'
-export const getAllSetsUrl = baseEndpointUrl + '/sets/getAll'
+export const getAllColorsUrl = baseEndpointUrl + "/color/getAll";
+export const getMostUsedPartUrl =
+  baseEndpointUrl + "/inventoryPart/most_used_parts";
+export const getAllSetsUrl = baseEndpointUrl + "/sets/getAll";
 
-export const getPromptDetailUrl = baseEndpointUrl + '/prompt/get_first_prompt'
+export const getPromptDetailUrl = baseEndpointUrl + "/prompt/get_first_prompt";
+export const getCustomeResultUrl =
+  baseEndpointUrl + "/prompt/get_custom_result";

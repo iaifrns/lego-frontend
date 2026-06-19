@@ -6,6 +6,7 @@ import { images } from "../constants/images";
 import { ActiveMenuContext } from "../context/ActiveMenuProvider";
 import { activeMenuData } from "../constants/active";
 import { useNavigate } from "react-router";
+import AdvanceIcon from "../assets/icons/advance";
 
 const SideBar2 = ({
   setChangeSidebar,
@@ -49,6 +50,13 @@ const SideBar2 = ({
             w="1.3rem"
           />
         </div>
+        <AdvanceIcon
+          color={
+            active === activeMenuData.ADVANCESEARCH ? primary : defaultColor
+          }
+          h="1.3rem"
+          w="1.3rem"
+        />
       </div>
     </div>
   );
