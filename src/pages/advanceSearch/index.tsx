@@ -14,20 +14,22 @@ const AdvanceSearchPage = () => {
       alert("Please the search can't be empty");
       return;
     }
+    const mes = message;
+    setMessage("");
     setLoading(true);
-    await getCustomResult(message, setData);
+    await getCustomResult(mes, setData);
     setLoading(false);
   };
 
   return (
-    <div className="p-8 flex w-full flex-col justify-end h-[92vh]">
-      <div className="h-full w-full flex flex-col pb-2 justify-end">
+    <div className="p-8 flex w-full flex-col justify-end h-[92vh] overflow-scroll">
+      <div className="h-fit w-full flex flex-col pb-2 justify-en overflow-scroll">
         {loading ? (
           <div className="bg-gray-300 rounded-xl w-fit">
             <Loader2Icon w="40px" h="40px" color="black" />
           </div>
         ) : (
-          <>{data.length > 0 && DynamicTable({ data })}</>
+          <>{data && <>{data.length > 0 && <DynamicTable data={ data }/>}</>}</>
         )}
       </div>
       <div className="w-full bg-primary/10 border border-primary rounded-2xl flex flex-col p-2 gap-2">

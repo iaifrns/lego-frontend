@@ -7,7 +7,11 @@ export const getCustomResult = async (
   try {
     const response = await fetch(getCustomeResultUrl + `?message=${message}`);
     const data = await response.json();
-    setData(data.data);
+    if(data.success){
+        setData(data.data);
+    }else{
+        alert("an error occured please try again later")
+    }
     console.log(data);
   } catch (e) {
     console.log(e);
