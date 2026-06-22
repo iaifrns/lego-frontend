@@ -6,7 +6,6 @@ import {
   countSetsUrl,
   countThemeUrl,
 } from "../../../constants/endpoints";
-import type { CountType } from "../type";
 
 export const setCount = async () => {
   let num: number = 0;
