@@ -1,31 +1,50 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { BodyType } from "../../../types/body";
+import { getSpecificData } from "../service/getSpecificData";
+import Loader2Icon from "../../../assets/icons/loader2";
 
 type DynamicTableProps = {
   data: Record<string, any>[];
   itemsPerPage?: number;
+  totalDataSize: number;
+  body: BodyType;
 };
 
 export default function DynamicTable({
   data,
   itemsPerPage = 10,
+  totalDataSize,
+  body,
 }: DynamicTableProps) {
   const [page, setPage] = useState(1);
+  const [paginatedData, setPaginatedData] = useState(data);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (page != 1) {
+      getSpecificData(body, page, setPaginatedData, setLoading);
+    } else {
+      setPaginatedData(data);
+    }
+  }, [page]);
 
   const columns = useMemo(
     () => Array.from(new Set(data.flatMap((row) => Object.keys(row)))),
     [data],
   );
 
-  const paginatedData = useMemo(() => {
-    const start = (page - 1) * itemsPerPage;
-    return data.slice(start, start + itemsPerPage);
-  }, [data, page, itemsPerPage]);
-
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  console.log(data)
+  const totalPages = Math.ceil(totalDataSize / itemsPerPage);
   if (!data.length || data.length == 0) {
     return (
       <div className="rounded-xl border p-6 text-center">No data available</div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="bg-gray-300 rounded-xl w-fit">
+        <Loader2Icon w="40px" h="40px" color="black" />
+      </div>
     );
   }
 

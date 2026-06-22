@@ -3,11 +3,14 @@ import SendIcon from "../../assets/icons/send";
 import { getCustomResult } from "./service/getCustomeResult";
 import Loader2Icon from "../../assets/icons/loader2";
 import DynamicTable from "./components/CustomTable";
+import type { BodyType } from "../../types/body";
 
 const AdvanceSearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [data, setData] = useState<Record<string, any>[]>([]);
+  const [dataCount, setDataCount] = useState(10);
+  const [body, setBody] = useState<BodyType>({ model: "", pipeline: [] });
 
   const handleFetchData = async () => {
     if (message.length < 1) {
@@ -17,7 +20,7 @@ const AdvanceSearchPage = () => {
     const mes = message;
     setMessage("");
     setLoading(true);
-    await getCustomResult(mes, setData);
+    await getCustomResult(mes, setData, setDataCount, setBody);
     setLoading(false);
   };
 
@@ -29,7 +32,19 @@ const AdvanceSearchPage = () => {
             <Loader2Icon w="40px" h="40px" color="black" />
           </div>
         ) : (
-          <>{data && <>{data.length > 0 && <DynamicTable data={ data }/>}</>}</>
+          <>
+            {data && (
+              <>
+                {data.length > 0 && (
+                  <DynamicTable
+                    totalDataSize={dataCount}
+                    data={data}
+                    body={body}
+                  />
+                )}
+              </>
+            )}
+          </>
         )}
       </div>
       <div className="w-full bg-primary/10 border border-primary rounded-2xl flex flex-col p-2 gap-2">

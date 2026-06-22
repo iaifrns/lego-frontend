@@ -26,3 +26,5 @@ export const getAllSetsUrl = baseEndpointUrl + "/sets/getAll";
 export const getPromptDetailUrl = baseEndpointUrl + "/prompt/get_first_prompt";
 export const getCustomeResultUrl =
   baseEndpointUrl + "/prompt/get_custom_result";
+
+export const getSpecificDataUrl = baseEndpointUrl + "/prompt/get_specific_data"
