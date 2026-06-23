@@ -12,7 +12,6 @@ export const setCount = async () => {
   try {
     const response = await fetch(countSetsUrl);
     const data = await response.json();
-    console.log(data);
     num = data.count;
   } catch (e) {
     console.log(e);
