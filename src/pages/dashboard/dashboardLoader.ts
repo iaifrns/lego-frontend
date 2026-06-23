@@ -5,7 +5,7 @@ import { getSetPartData } from "./services/getSetsPartData";
 import { getTopParts } from "./services/getTopParts";
 
 export const dashboardLoader = async () => {
-  console.log(baseEndpointUrl)
+  console.log(baseEndpointUrl, import.meta.env.VITE_APP_ENV)
   const data = await Promise.all([
     getDataCounts(),
     getGraphData(),
