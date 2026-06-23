@@ -6,7 +6,6 @@ export const getAllSets = async (page: number, setSets: (n: []) => void) => {
     const result = await response.json();
 
     if (result.success) {
-        console.log(result.data)
       setSets(result.data);
     }
   } catch (e) {
