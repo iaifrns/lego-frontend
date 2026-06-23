@@ -1,4 +1,4 @@
-const baseEndpointUrl =(import.meta.env.VITE_APP_ENV == "development") ? import.meta.env.VITE_API_URL: import.meta.env.VITE_API_URL_PROD;
+export const baseEndpointUrl =(import.meta.env.VITE_APP_ENV == "development") ? import.meta.env.VITE_API_URL: import.meta.env.VITE_API_URL_PROD;
 
 export const countSetsUrl = baseEndpointUrl + "/sets/count";
 export const countPartUrl = baseEndpointUrl + "/parts/count";
