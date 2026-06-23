@@ -4,7 +4,7 @@ export const getTopParts = async () => {
     try{
         const response = await fetch(getMostUsedPartUrl)
         const result = await response.json()
-
+        console.log(getMostUsedPartUrl)
         if(result.success){
             return [result.data[0].topParts,result.data[0].grandTotal[0].totalParts]
         }
