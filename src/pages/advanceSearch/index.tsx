@@ -35,7 +35,7 @@ const AdvanceSearchPage = () => {
             <Loader2Icon w="40px" h="40px" color="black" />
           </div>
         ) : (
-          <div className="flex flex-col gap-2 border border-primary/20 rounded-2xl p-3 w-full">
+          <div className="flex flex-col gap-4 border border-primary/20 rounded-2xl p-3 w-full">
             <ReactMarkdown remarkPlugins= {[remarkGfm]}>{explanation}</ReactMarkdown>
             {data && (
               <>
