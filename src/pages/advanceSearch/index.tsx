@@ -4,6 +4,8 @@ import { getCustomResult } from "./service/getCustomeResult";
 import Loader2Icon from "../../assets/icons/loader2";
 import DynamicTable from "./components/CustomTable";
 import type { BodyType } from "../../types/body";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const AdvanceSearchPage = () => {
   const [loading, setLoading] = useState(false);
@@ -11,6 +13,7 @@ const AdvanceSearchPage = () => {
   const [data, setData] = useState<Record<string, any>[]>([]);
   const [dataCount, setDataCount] = useState(10);
   const [body, setBody] = useState<BodyType>({ model: "", pipeline: [] });
+  const [explanation, setExplanation] = useState("");
 
   const handleFetchData = async () => {
     if (message.length < 1) {
@@ -20,7 +23,7 @@ const AdvanceSearchPage = () => {
     const mes = message;
     setMessage("");
     setLoading(true);
-    await getCustomResult(mes, setData, setDataCount, setBody);
+    await getCustomResult(mes, setData, setDataCount, setBody, setExplanation);
     setLoading(false);
   };
 
@@ -32,7 +35,8 @@ const AdvanceSearchPage = () => {
             <Loader2Icon w="40px" h="40px" color="black" />
           </div>
         ) : (
-          <>
+          <div className="flex flex-col gap-2 border border-primary/20 rounded-2xl p-3 w-full">
+            <ReactMarkdown remarkPlugins= {[remarkGfm]}>{explanation}</ReactMarkdown>
             {data && (
               <>
                 {data.length > 0 && (
@@ -44,7 +48,7 @@ const AdvanceSearchPage = () => {
                 )}
               </>
             )}
-          </>
+          </div>
         )}
       </div>
       <div className="w-full bg-primary/10 border border-primary rounded-2xl flex flex-col p-2 gap-2">

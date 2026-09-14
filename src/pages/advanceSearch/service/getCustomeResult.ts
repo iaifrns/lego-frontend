@@ -5,7 +5,8 @@ export const getCustomResult = async (
   message: string,
   setData: (v: []) => void,
   setCount: (v:number) => void,
-  setBody: (v:BodyType)=>void
+  setBody: (v:BodyType)=>void,
+  setExplanation: (v:string)=>void,
 ) => {
   try {
     const response = await fetch(getCustomeResultUrl + `?message=${message}`);
@@ -17,6 +18,7 @@ export const getCustomResult = async (
             model: data.model,
             pipeline: data.pipeline
         })
+        setExplanation(data.explanation)
     }else{
         alert("an error occured please try again later")
     }
